@@ -5,32 +5,13 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    private string email, password, userID, userName;
+    public GameObject loginPanel, registerPanel;
 
-    public GameObject loginPanel, registerPanel, userInfoPanel, userAddressPanel, userAboutPanel, errorPanel;
+    public InputField passField, emailField;
 
-    public InputField loginNameField, loginPassField;
+    public InputField registerPassField, registerEmailField, registerUserId, registerUsername;
 
-    public InputField userNameField, passField, emailField, userIDField;
-
-    public Button loginButton, goToRegister, registerButton;
-
-    Dictionary<string, LogController> users = new Dictionary<string, LogController>()
-    {
-        {"default", new LogController ("default", "default", "default", "default") }
-    };
-
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Text messageText, loginSuccessText, registerLoginSuccessText;
 
     public void RegisterLoginButton()
     {
@@ -40,10 +21,33 @@ public class Manager : MonoBehaviour
 
     public void LoginSuccess()
     {
-        if (string.IsNullOrWhiteSpace(emailField.text) || string.IsNullOrWhiteSpace(passField.text))
+        if (!string.IsNullOrWhiteSpace(emailField.text) && !string.IsNullOrWhiteSpace(passField.text) && emailField.text.IndexOf('@') > 0)
         {
             emailField.gameObject.SetActive(false);
             passField.gameObject.SetActive(false);
+            loginSuccessText.gameObject.SetActive(true);
+        }
+        else
+        {
+            messageText.text = "Data is incorrect! Try Again!";
+        }
+    }
+
+    public void RegisterLoginSuccess()
+    {
+        if (!string.IsNullOrWhiteSpace(registerUsername.text) && !string.IsNullOrWhiteSpace(registerUserId.text)
+            && !string.IsNullOrWhiteSpace(registerPassField.text) && !string.IsNullOrWhiteSpace(registerEmailField.text)
+            && registerEmailField.text.IndexOf('@') > 0)
+        {
+            registerEmailField.gameObject.SetActive(false);
+            registerPassField.gameObject.SetActive(false);
+            registerUserId.gameObject.SetActive(false);
+            registerUsername.gameObject.SetActive(false);
+            registerLoginSuccessText.gameObject.SetActive(true);
+        }
+        else
+        {
+            messageText.text = "Data is incorrect! Try Again!";
         }
     }
 }
